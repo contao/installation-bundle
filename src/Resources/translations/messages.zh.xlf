@@ -18,7 +18,7 @@
       </trans-unit>
       <trans-unit id="4">
         <source>locked_explanation</source>
-        <target>由于安全原因，连续输入超过3次错误密码安装工具会被锁定，请在命令行中运行&lt;code&gt;app/console doctrine:cache:clear contao.cache&lt;/code&gt;来解除锁定。</target>
+        <target>由于安全原因，连续输入超过3次错误密码安装工具会被锁定，请在命令行中运行&lt;code&gt;app/console cache:clear -e=prod&lt;/code&gt;来解除锁定。</target>
         
       </trans-unit>
       <trans-unit id="5">
