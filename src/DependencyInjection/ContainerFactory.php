@@ -10,8 +10,10 @@
 
 namespace Contao\InstallationBundle\DependencyInjection;
 
+use AppKernel;
 use Contao\CoreBundle\Config\ResourceFinder;
 use Contao\CoreBundle\DependencyInjection\Compiler\AddResourcesPathsPass;
+use Contao\CoreBundle\HttpKernel\AbstractContaoKernel;
 use Contao\CoreBundle\Session\Attribute\ArrayAttributeBag;
 use Contao\InstallationBundle\Database\ConnectionFactory;
 use Contao\InstallationBundle\Database\Installer;
@@ -26,7 +28,6 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Translation\Loader\XliffFileLoader;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Yaml\Yaml;
@@ -41,22 +42,31 @@ class ContainerFactory
     /**
      * Returns the container object.
      *
-     * @param KernelInterface $kernel
-     * @param Request         $request
+     * @param AppKernel $kernel
+     * @param Request   $request
      *
      * @return ContainerBuilder
+     *
+     * @throws \InvalidArgumentException
      */
-    public static function create(KernelInterface $kernel, Request $request)
+    public static function create(AppKernel $kernel, Request $request)
     {
+        if (!($kernel instanceof AbstractContaoKernel)) {
+            throw new \InvalidArgumentException(
+                'The AppKernel class must extend the AbstractContaoKernel class.'
+            );
+        }
+
         $rootDir = $kernel->getRootDir();
         $cacheDir = $kernel->getCacheDir();
-        $logsDir = $kernel->getLogDir();
+        $logDir = $kernel->getLogDir();
 
         $container = new ContainerBuilder();
+        $container->setParameter('kernel.debug', false);
         $container->setParameter('kernel.root_dir', $rootDir);
         $container->setParameter('kernel.cache_dir', $cacheDir);
-        $container->setParameter('kernel.logs_dir', $logsDir);
-        $container->setParameter('kernel.debug', false);
+        $container->setParameter('kernel.logs_dir', $logDir);
+        $container->setParameter('contao.root_dir', $kernel->getContaoRootDir());
 
         $parameters = [];
 
@@ -179,7 +189,7 @@ class ContainerFactory
 
         $container->set(
             'contao.install_tool',
-            new InstallTool($container->get('database_connection'), $rootDir)
+            new InstallTool($container->get('database_connection'), $rootDir, $logDir)
         );
 
         $container->set('contao.install_tool_user', new InstallToolUser($container->get('session')));
