@@ -10,13 +10,13 @@
 
 namespace Contao\InstallationBundle\DependencyInjection;
 
-use AppKernel;
 use Contao\CoreBundle\Config\ResourceFinder;
 use Contao\CoreBundle\DependencyInjection\Compiler\AddResourcesPathsPass;
 use Contao\CoreBundle\HttpKernel\AbstractContaoKernel;
 use Contao\CoreBundle\Session\Attribute\ArrayAttributeBag;
 use Contao\InstallationBundle\Database\ConnectionFactory;
 use Contao\InstallationBundle\Database\Installer;
+use Contao\InstallationBundle\HttpKernel\InstallationKernel;
 use Contao\InstallationBundle\InstallTool;
 use Contao\InstallationBundle\InstallToolUser;
 use Contao\InstallationBundle\Translation\LanguageResolver;
@@ -42,14 +42,14 @@ class ContainerFactory
     /**
      * Returns the container object.
      *
-     * @param AppKernel $kernel
-     * @param Request   $request
+     * @param InstallationKernel $kernel
+     * @param Request            $request
      *
      * @return ContainerBuilder
      *
      * @throws \InvalidArgumentException
      */
-    public static function create(AppKernel $kernel, Request $request)
+    public static function create(InstallationKernel $kernel, Request $request)
     {
         if (!($kernel instanceof AbstractContaoKernel)) {
             throw new \InvalidArgumentException(
