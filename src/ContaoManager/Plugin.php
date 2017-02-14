@@ -33,8 +33,7 @@ class Plugin implements BundlePluginInterface, RoutingPluginInterface
     {
         return [
             BundleConfig::create(ContaoInstallationBundle::class)
-                ->setLoadAfter([ContaoCoreBundle::class])
-            ,
+                ->setLoadAfter([ContaoCoreBundle::class]),
         ];
     }
 
