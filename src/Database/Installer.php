@@ -136,7 +136,7 @@ class Installer
                 case preg_match('/^(ALTER TABLE [^ ]+) /', $sql, $matches):
                     $prefix = $matches[1];
                     $sql = substr($sql, strlen($prefix));
-                    $parts = array_map('trim', explode(',', $sql));
+                    $parts = array_map('trim', preg_split("/(?<!'),|,(?!')/", $sql));
 
                     foreach ($parts as $part) {
                         $command = $prefix.' '.$part;
