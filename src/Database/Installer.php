@@ -130,9 +130,10 @@ class Installer
                 case preg_match('/^(ALTER TABLE [^ ]+) /', $sql, $matches):
                     $prefix = $matches[1];
                     $sql = substr($sql, strlen($prefix));
-                    $parts = array_map('trim', explode(',', $sql));
+                    $parts = array_reverse(array_map('trim', explode(',', $sql)));
 
-                    foreach ($parts as $part) {
+                    for ($i=0, $count=count($parts); $i<$count; $i++) {
+                        $part = $parts[$i];
                         $command = $prefix.' '.$part;
 
                         switch (true) {
@@ -150,7 +151,8 @@ class Installer
                                 break;
 
                             default:
-                                throw new \RuntimeException(sprintf('Unsupported SQL schema diff: %s', $command));
+                                $parts[$i+1] = $parts[$i+1] . ',' . $part;
+                                break;
                         }
                     }
                     break;
