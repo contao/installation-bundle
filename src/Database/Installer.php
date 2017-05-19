@@ -163,7 +163,7 @@ class Installer
     }
 
     /**
-     * Removes tables from Schema that do not start with tl_ prefix.
+     * Removes tables from the schema that do not start with tl_.
      *
      * @param Schema $schema
      *
@@ -171,10 +171,8 @@ class Installer
      */
     private function dropNonContaoTables(Schema $schema)
     {
-        foreach ($schema->getTableNames() as $tableName)
-        {
-            if (0 !== strpos($tableName, 'tl_'))
-            {
+        foreach ($schema->getTableNames() as $tableName) {
+            if (0 !== strpos($tableName, 'tl_')) {
                 $schema->dropTable($tableName);
             }
         }
