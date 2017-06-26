@@ -22,6 +22,7 @@ use Patchwork\Utf8;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
@@ -240,7 +241,11 @@ class InstallationController implements ContainerAwareInterface
         ;
 
         foreach ($finder as $dir) {
-            $fs->remove($dir);
+            try {
+                $fs->remove($dir);
+            } catch (IOException $e) {
+                // Skip exception if not all cache files could be removed
+            }
         }
 
         // Zend OPcache
