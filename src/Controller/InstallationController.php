@@ -585,7 +585,7 @@ class InstallationController implements ContainerAwareInterface
             $context['language'] = $this->container->get('translator')->getLocale();
         }
 
-        if (!isset($context['ua'])) {
+        if (!isset($context['ua']) && $this->container->has('contao.framework') && $this->container->get('contao.framework')->isInitialized()) {
             $context['ua'] = Environment::get('agent')->class;
         }
 
