@@ -22,11 +22,12 @@ use Patchwork\Utf8;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Process\PhpExecutableFinder;
+use Symfony\Component\Process\Process;
 
 /**
  * Handles the installation process.
@@ -85,8 +86,6 @@ class InstallationController implements ContainerAwareInterface
         if (!$this->container->get('contao.install_tool_user')->isAuthenticated()) {
             return $this->login();
         }
-
-        $this->purgeSymfonyCache();
 
         if (!$installTool->canConnectToDatabase($this->getContainerParameter('database_name'))) {
             return $this->setUpDatabaseConnection();
@@ -229,7 +228,32 @@ class InstallationController implements ContainerAwareInterface
      */
     private function purgeSymfonyCache()
     {
-        $filesystem = new Filesystem();
+        $phpFinder = new PhpExecutableFinder();
+
+        if (false === ($phpPath = $phpFinder->find())) {
+            throw new \RuntimeException('The php executable could not be found.');
+        }
+
+        $projectDir = $this->getContainerParameter('kernel.project_dir');
+
+        switch (true) {
+            case file_exists($projectDir.'/bin/console'):
+                $console = $projectDir.'/bin/console';
+                break;
+
+            case file_exists($projectDir.'/app/console'):
+                $console = $projectDir.'/app/console';
+                break;
+
+            case file_exists($projectDir.'/vendor/bin/contao-console'):
+                $console = $projectDir.'/vendor/bin/contao-console';
+                break;
+
+            default:
+                throw new \RuntimeException('The console binary could not be found.');
+
+        }
+
         $cacheDir = $this->getContainerParameter('kernel.cache_dir');
 
         /** @var SplFileInfo[] $finder */
@@ -240,22 +264,21 @@ class InstallationController implements ContainerAwareInterface
         ;
 
         foreach ($finder as $realCacheDir) {
-            // the old cache dir name must not be longer than the real one to avoid exceeding
-            // the maximum length of a directory or file path within it (esp. Windows MAX_PATH)
-            $oldCacheDir = substr($realCacheDir, 0, -1).('~' === substr($realCacheDir, -1) ? '+' : '~');
+            $env = $realCacheDir->getBasename();
 
-            if (!is_writable($realCacheDir)) {
-                throw new \RuntimeException(sprintf('Unable to write in the "%s" directory', $realCacheDir));
+            $process = new Process(sprintf('%s %s cache:clear --no-warmup -e %s', $phpPath, $console, $env));
+            $process->run();
+
+            if (!$process->isSuccessful()) {
+                throw new \RuntimeException('Could not clear the Symfony cache: '.$process->getExitCodeText());
             }
 
-            if ($filesystem->exists($oldCacheDir)) {
-                $filesystem->remove($oldCacheDir);
+            $process = new Process(sprintf('%s %s cache:warmup -e %s', $phpPath, $console, $env));
+            $process->run();
+
+            if (!$process->isSuccessful()) {
+                throw new \RuntimeException('Could not warm up the Symfony cache: '.$process->getExitCodeText());
             }
-
-            $this->container->get('cache_clearer')->clear($realCacheDir);
-
-            $filesystem->rename($realCacheDir, $oldCacheDir);
-            $filesystem->remove($oldCacheDir);
         }
 
         // Zend OPcache
@@ -316,6 +339,8 @@ class InstallationController implements ContainerAwareInterface
         $dumper = new ParameterDumper($this->getContainerParameter('kernel.root_dir'));
         $dumper->setParameters($parameters);
         $dumper->dump();
+
+        $this->purgeSymfonyCache();
 
         return $this->getRedirectResponse();
     }
