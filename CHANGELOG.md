@@ -2,6 +2,7 @@
 
 ### DEV
 
+ * Only purge the Symfony cache after storing the database credentials and also warm it up (see #63).
  * Check if the Contao framework has been initialized when adding the user agent string (see standard-edition#64).
 
 ### 4.4.1 (2017-07-12)
