@@ -107,6 +107,7 @@ class Installer
         foreach ($diff as $sql) {
             switch (true) {
                 case 0 === strpos($sql, 'CREATE TABLE '):
+                    $sql = $this->escapeColumnNames($sql);
                     $return['CREATE'][md5($sql)] = $sql;
                     break;
 
@@ -135,15 +136,19 @@ class Installer
 
                         switch (true) {
                             case 0 === strpos($part, 'DROP '):
+                                $command = $this->escapeColumnName($command, strlen($prefix) + 6);
                                 $return['ALTER_DROP'][md5($command)] = $command;
                                 break;
 
                             case 0 === strpos($part, 'ADD '):
+                                $command = $this->escapeColumnName($command, strlen($prefix) + 5);
                                 $return['ALTER_ADD'][md5($command)] = $command;
                                 break;
 
                             case 0 === strpos($part, 'CHANGE '):
                             case 0 === strpos($part, 'RENAME '):
+                                $command = $this->escapeColumnName($command, strlen($prefix) + 8);
+                                $command = $this->escapeColumnName($command, strpos($command, ' ', strlen($prefix) + 8) + 1);
                                 $return['ALTER_CHANGE'][md5($command)] = $command;
                                 break;
 
@@ -189,5 +194,43 @@ class Installer
         }
 
         return $schema;
+    }
+
+    /**
+     * @param string $sql
+     *
+     * @return string
+     */
+    private function escapeColumnNames($sql)
+    {
+        return $this->escapeColumnRegex($sql, '/(\(|, )([a-z]+) /');
+    }
+
+    /**
+     * @param string $sql
+     * @param int    $offset
+     *
+     * @return string
+     */
+    private function escapeColumnName($sql, $offset)
+    {
+        return $this->escapeColumnRegex($sql, '/^(.{'.$offset.'})([a-z]+)(?: |$)/s');
+    }
+
+    /**
+     * @param string $sql
+     * @param string $regex
+     *
+     * @return string
+     */
+    private function escapeColumnRegex($sql, $regex)
+    {
+        return preg_replace_callback($regex, function($matches) {
+            if (\in_array($matches[2], ['rows'], true)) {
+                return $matches[1].'`'.$matches[2].'` ';
+            }
+
+            return $matches[0];
+        }, $sql);
     }
 }
