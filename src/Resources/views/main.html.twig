@@ -9,7 +9,7 @@
         <p class="tl_confirm">{{ 'update_tables_confirm'|trans }}</p>
       {% endif %}
       <p>{{ 'update_tables_explain'|trans|raw }}</p>
-      {% if sql_message is not empty %}
+      {% if sql_message is defined and sql_message is not empty %}
         <div id="sql_message">{{ sql_message|raw }}</div>
       {% endif %}
       {% if sql_form is not empty %}
