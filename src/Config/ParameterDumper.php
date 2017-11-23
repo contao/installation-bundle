@@ -106,7 +106,7 @@ class ParameterDumper
         $parameters = [];
 
         foreach ($this->parameters['parameters'] as $key => $value) {
-            if (false !== strpos($value, '%')) {
+            if (is_string($value) && false !== strpos($value, '%')) {
                 $parameters[$key] = str_replace('%', '%%', $value);
             } else {
                 $parameters[$key] = $value;
