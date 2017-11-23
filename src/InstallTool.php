@@ -125,7 +125,7 @@ class InstallTool
      *
      * @return bool
      */
-    public function canConnectToDatabase(string $name = null): bool
+    public function canConnectToDatabase(?string $name): bool
     {
         if (null === $this->connection) {
             return false;
