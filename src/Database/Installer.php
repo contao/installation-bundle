@@ -95,8 +95,9 @@ class Installer
             'ALTER_DROP' => [],
         ];
 
-        $fromSchema = $this->dropNonContaoTables($this->connection->getSchemaManager()->createSchema());
-        $toSchema = $this->dropNonContaoTables($this->schemaProvider->createSchema());
+        $contaoTables = [];
+        $toSchema = $this->dropNonContaoTables($this->schemaProvider->createSchema(), $contaoTables);
+        $fromSchema = $this->dropNonContaoTables($this->connection->getSchemaManager()->createSchema(), $contaoTables);
         $diff = $fromSchema->getMigrateToSql($toSchema, $this->connection->getDatabasePlatform());
 
         foreach ($diff as $sql) {
@@ -172,15 +173,20 @@ class Installer
      * Removes tables from the schema that do not start with tl_.
      *
      * @param Schema $schema
+     * @param array  $contaoTables
      *
      * @return Schema
      */
-    private function dropNonContaoTables(Schema $schema): Schema
+    private function dropNonContaoTables(Schema $schema, array &$contaoTables): Schema
     {
         $needle = $schema->getName().'.tl_';
 
         foreach ($schema->getTableNames() as $tableName) {
-            if (0 !== stripos($tableName, $needle)) {
+            if (true === $schema->getTable($tableName)->getOption('contao')) {
+                $contaoTables[] = $tableName;
+            }
+
+            if (!in_array($tableName, $contaoTables) && 0 !== stripos($tableName, $needle)) {
                 $schema->dropTable($tableName);
             }
         }
