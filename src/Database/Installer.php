@@ -155,7 +155,7 @@ class Installer
             }
         }
 
-        $this->checkEngineAndCollation($return);
+        $this->checkEngineAndCollation($return, $contaoTables);
 
         $return = array_filter($return);
 
@@ -198,8 +198,9 @@ class Installer
      * Checks engine and collation and adds the ALTER TABLE queries.
      *
      * @param array $sql
+     * @param array $contaoTables
      */
-    private function checkEngineAndCollation(array &$sql): void
+    private function checkEngineAndCollation(array &$sql, array $contaoTables): void
     {
         $params = $this->connection->getParams();
         $charset = $params['defaultTableOptions']['charset'];
@@ -208,7 +209,7 @@ class Installer
         $tables = $this->connection->getSchemaManager()->listTableNames();
 
         foreach ($tables as $table) {
-            if (0 !== strncmp($table, 'tl_', 3)) {
+            if (!in_array($table, $contaoTables) && 0 !== strncmp($table, 'tl_', 3)) {
                 continue;
             }
 
