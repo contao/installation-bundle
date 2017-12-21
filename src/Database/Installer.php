@@ -95,8 +95,9 @@ class Installer
             'ALTER_DROP' => [],
         ];
 
-        $fromSchema = $this->dropNonContaoTables($this->connection->getSchemaManager()->createSchema());
-        $toSchema = $this->dropNonContaoTables($this->schemaProvider->createSchema());
+        $contaoTables = [];
+        $toSchema = $this->dropNonContaoTables($this->schemaProvider->createSchema(), $contaoTables);
+        $fromSchema = $this->dropNonContaoTables($this->connection->getSchemaManager()->createSchema(), $contaoTables);
         $diff = $fromSchema->getMigrateToSql($toSchema, $this->connection->getDatabasePlatform());
 
         foreach ($diff as $sql) {
@@ -154,7 +155,7 @@ class Installer
             }
         }
 
-        $this->checkEngineAndCollation($return);
+        $this->checkEngineAndCollation($return, $contaoTables);
 
         $return = array_filter($return);
 
@@ -172,15 +173,20 @@ class Installer
      * Removes tables from the schema that do not start with tl_.
      *
      * @param Schema $schema
+     * @param array  $contaoTables
      *
      * @return Schema
      */
-    private function dropNonContaoTables(Schema $schema): Schema
+    private function dropNonContaoTables(Schema $schema, array &$contaoTables): Schema
     {
         $needle = $schema->getName().'.tl_';
 
         foreach ($schema->getTableNames() as $tableName) {
-            if (0 !== stripos($tableName, $needle)) {
+            if (true === $schema->getTable($tableName)->getOption('contao')) {
+                $contaoTables[] = $tableName;
+            }
+
+            if (!in_array($tableName, $contaoTables) && 0 !== stripos($tableName, $needle)) {
                 $schema->dropTable($tableName);
             }
         }
@@ -192,8 +198,9 @@ class Installer
      * Checks engine and collation and adds the ALTER TABLE queries.
      *
      * @param array $sql
+     * @param array $contaoTables
      */
-    private function checkEngineAndCollation(array &$sql): void
+    private function checkEngineAndCollation(array &$sql, array $contaoTables): void
     {
         $params = $this->connection->getParams();
         $charset = $params['defaultTableOptions']['charset'];
@@ -202,7 +209,7 @@ class Installer
         $tables = $this->connection->getSchemaManager()->listTableNames();
 
         foreach ($tables as $table) {
-            if (0 !== strncmp($table, 'tl_', 3)) {
+            if (!in_array($table, $contaoTables) && 0 !== strncmp($table, 'tl_', 3)) {
                 continue;
             }
 
