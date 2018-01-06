@@ -271,7 +271,7 @@ class InstallTool
                 return true;
             }
 
-            $vok = 'mariadb' === strtolower($vendor) ? '10.2' : '5.7.7';
+            $vok = isset($vendor) && 'mariadb' === strtolower($vendor) ? '10.2' : '5.7.7';
 
             // No additional requirements as of MySQL 5.7.7 and MariaDB 10.2
             if (version_compare($version, $vok, '>=')) {
