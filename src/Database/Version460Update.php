@@ -19,11 +19,16 @@ class Version460Update extends AbstractVersionUpdate
      */
     public function shouldBeRun(): bool
     {
-        $schemaManager = $this->connection->getSchemaManager();
+        $statement = $this->connection->query("
+            SELECT
+                id
+            FROM
+                tl_module
+            WHERE
+                type = 'search' AND rootPage != '0'
+        ");
 
-        $columns = $schemaManager->listTableColumns('tl_module');
-
-        return !isset($columns['searchpages']);
+        return false !== $statement->fetch();
     }
 
     /**
@@ -32,17 +37,10 @@ class Version460Update extends AbstractVersionUpdate
     public function run(): void
     {
         $this->connection->query("
-            ALTER TABLE
-                tl_module
-            ADD
-                searchPages blob NULL
-        ");
-
-        $this->connection->query("
             UPDATE
                 tl_module
             SET
-                searchPages = CONCAT('a:1:{i:0;i:', rootPage, ';}'),
+                pages = CONCAT('a:1:{i:0;i:', rootPage, ';}'),
                 rootPage = 0
             WHERE
                 type = 'search' AND rootPage != '0'
