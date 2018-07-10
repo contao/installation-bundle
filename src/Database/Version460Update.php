@@ -242,7 +242,7 @@ class Version460Update extends AbstractVersionUpdate
 			->fetchAll(\PDO::FETCH_OBJ);
 
 		foreach ($records as $record) {
-			$elements = deserialize($record->contentelements);
+			$elements = StringUtil::deserialize($record->contentelements);
 			if (empty($elements) || !\is_array($elements)) {
 				continue;
 			}
