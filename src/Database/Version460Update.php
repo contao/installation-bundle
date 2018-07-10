@@ -37,6 +37,9 @@ class Version460Update extends AbstractVersionUpdate
      */
     public function run(): void
     {
+		// Migrate old ce-access extension structure (see contao/core-bundle#1560)
+		$this->migrateCeAccess();
+
         // Adjust the search module settings (see contao/core-bundle#1462)
         $this->connection->query("
             UPDATE
@@ -177,4 +180,111 @@ class Version460Update extends AbstractVersionUpdate
 
         $this->connection->query('UPDATE tl_content SET playerStop = youtubeStop');
     }
+
+	/**
+	 * Replacement for runonce.php migration of ce-access extension (terminal42/contao-ce-access) which has been merged
+	 * into contao/core-bundle in version 4.6.0.
+	 */
+	private function migrateCeAccess(): void
+	{
+		// v1 -> v2
+		$contentElements = array();
+
+		foreach ($GLOBALS['TL_CTE'] as $k => $v) {
+			$contentElements[$k] = array();
+			foreach ($v as $kk => $vv) {
+				$contentElements[$k][] = $kk;
+			}
+		}
+
+		$this->ceAccessInvertElements('tl_user', $contentElements);
+		$this->ceAccessInvertElements('tl_user_group', $contentElements);
+
+		$modules = array();
+
+		// v2 -> v3
+		foreach ($GLOBALS['BE_MOD'] as $moduleConfigs) {
+			foreach ($moduleConfigs as $moduleName => $moduleConfig) {
+				// Skip modules without tl_content table
+				if (!\in_array('tl_content', (array) $moduleConfig['tables'])) {
+					continue;
+				}
+
+				$modules[] = $moduleName;
+			}
+		}
+
+		$this->ceAccessGroupElements('tl_user', $modules);
+		$this->ceAccessGroupElements('tl_user_group', $modules);
+	}
+
+	/**
+	 * Convert negative-selection of column 'contentelements' in tl_user_group and tl_user to additive selection in the
+	 * column 'elements'
+	 *
+	 * @param string $table
+	 * @param array  $contentElements
+	 */
+	private function ceAccessInvertElements(string $table, array $contentElements): void
+	{
+		$columns = $this->connection->getSchemaManager()->listTableColumns($table);
+
+		if (!isset($columns['contentelements']) || isset($columns['elements'])) {
+			return;
+		}
+
+		// Add the new field to the database table
+		$this->connection
+			->query("ALTER TABLE $table ADD COLUMN elements blob NULL");
+
+		$records = $this->connection
+			->query("SELECT id, contentelements FROM $table WHERE contentelements!=''")
+			->fetchAll(\PDO::FETCH_OBJ);
+
+		foreach ($records as $record) {
+			$elements = deserialize($record->contentelements);
+			if (empty($elements) || !\is_array($elements)) {
+				continue;
+			}
+
+			$elements = array_diff($contentElements, $elements);
+
+			$this->connection
+				->executeQuery("UPDATE $table SET elements=? WHERE id=?", [serialize($elements), $record->id]);
+		}
+
+		// Delete old field
+		$this->connection
+			->query("ALTER TABLE $table DROP contentelements");
+	}
+
+	/**
+	 * Group records from the old format "text" to new "article.text"
+	 *
+	 * @param string $table
+	 * @param array  $modules
+	 */
+	private function ceAccessGroupElements(string $table, array $modules): void
+	{
+		$records = $this->connection
+			->query("SELECT id, elements FROM $table")
+			->fetchAll(\PDO::FETCH_OBJ);
+
+		foreach ($records as $record) {
+			$elements = deserialize($record->elements, true);
+
+			// The format is already correct
+			if (empty($elements) || strpos($elements, '.') !== false) {
+				continue;
+			}
+
+			// Update the elements
+			foreach ($elements as $key => $element) {
+				foreach ($modules as $module) {
+					$elements[] = $module . '.' . $element;
+				}
+				unset($elements[$key]);
+			}
+		}
+	}
 }
