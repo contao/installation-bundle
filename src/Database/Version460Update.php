@@ -252,10 +252,6 @@ class Version460Update extends AbstractVersionUpdate
 			$this->connection
 				->executeQuery("UPDATE $table SET elements=? WHERE id=?", [serialize($elements), $record->id]);
 		}
-
-		// Delete old field
-		$this->connection
-			->query("ALTER TABLE $table DROP contentelements");
 	}
 
 	/**
