@@ -249,8 +249,7 @@ class Version460Update extends AbstractVersionUpdate
 
 			$elements = array_diff($contentElements, $elements);
 
-			$this->connection
-				->executeQuery("UPDATE $table SET elements=? WHERE id=?", [serialize($elements), $record->id]);
+			$this->connection->update($table, ['elements' => serialize($elements)], ['id' => $record->id]);
 		}
 	}
 
@@ -281,6 +280,8 @@ class Version460Update extends AbstractVersionUpdate
 				}
 				unset($elements[$key]);
 			}
+
+			$this->connection->update($table, ['elements' => serialize($elements)], ['id' => $record->id]);
 		}
 	}
 }
