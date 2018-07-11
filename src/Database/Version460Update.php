@@ -37,8 +37,8 @@ class Version460Update extends AbstractVersionUpdate
      */
     public function run(): void
     {
-		// Migrate old ce-access extension structure (see contao/core-bundle#1560)
-		$this->migrateCeAccess();
+        // Migrate old ce-access extension structure (see contao/core-bundle#1560)
+        $this->migrateCeAccess();
 
         // Adjust the search module settings (see contao/core-bundle#1462)
         $this->connection->query("
@@ -181,107 +181,107 @@ class Version460Update extends AbstractVersionUpdate
         $this->connection->query('UPDATE tl_content SET playerStop = youtubeStop');
     }
 
-	/**
-	 * Replacement for runonce.php migration of ce-access extension (terminal42/contao-ce-access) which has been merged
-	 * into contao/core-bundle in version 4.6.0.
-	 */
-	private function migrateCeAccess(): void
-	{
-		// v1.* -> v2.0
-		$contentElements = array();
+    /**
+     * Replacement for runonce.php migration of ce-access extension (terminal42/contao-ce-access) which has been merged
+     * into contao/core-bundle in version 4.6.0.
+     */
+    private function migrateCeAccess(): void
+    {
+        // v1.* -> v2.0
+        $contentElements = [];
 
-		foreach ($GLOBALS['TL_CTE'] as $k => $v) {
-			$contentElements[$k] = array();
-			foreach ($v as $kk => $vv) {
-				$contentElements[$k][] = $kk;
-			}
-		}
+        foreach ($GLOBALS['TL_CTE'] as $k => $v) {
+            $contentElements[$k] = [];
+            foreach ($v as $kk => $vv) {
+                $contentElements[$k][] = $kk;
+            }
+        }
 
-		$this->ceAccessInvertElements('tl_user', $contentElements);
-		$this->ceAccessInvertElements('tl_user_group', $contentElements);
+        $this->ceAccessInvertElements('tl_user', $contentElements);
+        $this->ceAccessInvertElements('tl_user_group', $contentElements);
 
-		$modules = array();
+        $modules = [];
 
-		// v2.0 -> v2.1
-		foreach ($GLOBALS['BE_MOD'] as $moduleConfigs) {
-			foreach ($moduleConfigs as $moduleName => $moduleConfig) {
-				// Skip modules without tl_content table
-				if (!\in_array('tl_content', (array) $moduleConfig['tables'])) {
-					continue;
-				}
+        // v2.0 -> v2.1
+        foreach ($GLOBALS['BE_MOD'] as $moduleConfigs) {
+            foreach ($moduleConfigs as $moduleName => $moduleConfig) {
+                // Skip modules without tl_content table
+                if (!\in_array('tl_content', (array) $moduleConfig['tables'], true)) {
+                    continue;
+                }
 
-				$modules[] = $moduleName;
-			}
-		}
+                $modules[] = $moduleName;
+            }
+        }
 
-		$this->ceAccessGroupElements('tl_user', $modules);
-		$this->ceAccessGroupElements('tl_user_group', $modules);
-	}
+        $this->ceAccessGroupElements('tl_user', $modules);
+        $this->ceAccessGroupElements('tl_user_group', $modules);
+    }
 
-	/**
-	 * Convert negative-selection of column 'contentelements' in tl_user_group and tl_user to additive selection in the
-	 * column 'elements'
-	 *
-	 * @param string $table
-	 * @param array  $contentElements
-	 */
-	private function ceAccessInvertElements(string $table, array $contentElements): void
-	{
-		$columns = $this->connection->getSchemaManager()->listTableColumns($table);
+    /**
+     * Convert negative-selection of column 'contentelements' in tl_user_group and tl_user to additive selection in the
+     * column 'elements'.
+     *
+     * @param string $table
+     * @param array  $contentElements
+     */
+    private function ceAccessInvertElements(string $table, array $contentElements): void
+    {
+        $columns = $this->connection->getSchemaManager()->listTableColumns($table);
 
-		if (!isset($columns['contentelements']) || isset($columns['elements'])) {
-			return;
-		}
+        if (!isset($columns['contentelements']) || isset($columns['elements'])) {
+            return;
+        }
 
-		// Add the new field to the database table
-		$this->connection
-			->query("ALTER TABLE $table ADD COLUMN elements blob NULL");
+        // Add the new field to the database table
+        $this->connection
+            ->query("ALTER TABLE $table ADD COLUMN elements blob NULL");
 
-		$records = $this->connection
-			->query("SELECT id, contentelements FROM $table WHERE contentelements IS NOT NULL AND contentelements != ''")
-			->fetchAll(\PDO::FETCH_OBJ);
+        $records = $this->connection
+            ->query("SELECT id, contentelements FROM $table WHERE contentelements IS NOT NULL AND contentelements != ''")
+            ->fetchAll(\PDO::FETCH_OBJ);
 
-		foreach ($records as $record) {
-			$elements = StringUtil::deserialize($record->contentelements);
-			if (empty($elements) || !\is_array($elements)) {
-				continue;
-			}
+        foreach ($records as $record) {
+            $elements = StringUtil::deserialize($record->contentelements);
+            if (empty($elements) || !\is_array($elements)) {
+                continue;
+            }
 
-			$elements = array_diff($contentElements, $elements);
+            $elements = array_diff($contentElements, $elements);
 
-			$this->connection->update($table, ['elements' => serialize($elements)], ['id' => $record->id]);
-		}
-	}
+            $this->connection->update($table, ['elements' => serialize($elements)], ['id' => $record->id]);
+        }
+    }
 
-	/**
-	 * Group records from the old format "text" to new "article.text"
-	 *
-	 * @param string $table
-	 * @param array  $modules
-	 */
-	private function ceAccessGroupElements(string $table, array $modules): void
-	{
-		$records = $this->connection
-			->query("SELECT id, elements FROM $table")
-			->fetchAll(\PDO::FETCH_OBJ);
+    /**
+     * Group records from the old format "text" to new "article.text".
+     *
+     * @param string $table
+     * @param array  $modules
+     */
+    private function ceAccessGroupElements(string $table, array $modules): void
+    {
+        $records = $this->connection
+            ->query("SELECT id, elements FROM $table")
+            ->fetchAll(\PDO::FETCH_OBJ);
 
-		foreach ($records as $record) {
-			$elements = deserialize($record->elements, true);
+        foreach ($records as $record) {
+            $elements = deserialize($record->elements, true);
 
-			// The format is already correct
-			if (empty($elements) || strpos($elements, '.') !== false) {
-				continue;
-			}
+            // The format is already correct
+            if (empty($elements) || false !== strpos($elements, '.')) {
+                continue;
+            }
 
-			// Update the elements
-			foreach ($elements as $key => $element) {
-				foreach ($modules as $module) {
-					$elements[] = $module . '.' . $element;
-				}
-				unset($elements[$key]);
-			}
+            // Update the elements
+            foreach ($elements as $key => $element) {
+                foreach ($modules as $module) {
+                    $elements[] = $module.'.'.$element;
+                }
+                unset($elements[$key]);
+            }
 
-			$this->connection->update($table, ['elements' => serialize($elements)], ['id' => $record->id]);
-		}
-	}
+            $this->connection->update($table, ['elements' => serialize($elements)], ['id' => $record->id]);
+        }
+    }
 }
