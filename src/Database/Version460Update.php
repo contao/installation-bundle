@@ -187,7 +187,7 @@ class Version460Update extends AbstractVersionUpdate
 	 */
 	private function migrateCeAccess(): void
 	{
-		// v1 -> v2
+		// v1.* -> v2.0
 		$contentElements = array();
 
 		foreach ($GLOBALS['TL_CTE'] as $k => $v) {
@@ -202,7 +202,7 @@ class Version460Update extends AbstractVersionUpdate
 
 		$modules = array();
 
-		// v2 -> v3
+		// v2.0 -> v2.1
 		foreach ($GLOBALS['BE_MOD'] as $moduleConfigs) {
 			foreach ($moduleConfigs as $moduleName => $moduleConfig) {
 				// Skip modules without tl_content table
