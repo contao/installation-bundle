@@ -238,7 +238,7 @@ class Version460Update extends AbstractVersionUpdate
 			->query("ALTER TABLE $table ADD COLUMN elements blob NULL");
 
 		$records = $this->connection
-			->query("SELECT id, contentelements FROM $table WHERE contentelements!=''")
+			->query("SELECT id, contentelements FROM $table WHERE contentelements IS NOT NULL AND contentelements != ''")
 			->fetchAll(\PDO::FETCH_OBJ);
 
 		foreach ($records as $record) {
