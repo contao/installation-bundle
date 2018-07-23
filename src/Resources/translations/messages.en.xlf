@@ -327,10 +327,6 @@
         <target>The configured database engine &lt;code&gt;%s&lt;/code&gt; is not available on your server. Please install it (recommended) or configure a different database engine in the &lt;code&gt;app/config/config.yml&lt;/code&gt; file.</target>
       </trans-unit>
       <trans-unit id="82">
-        <source>misconfigured_database_url</source>
-        <target>Could not connect to database!</target>
-      </trans-unit>
-      <trans-unit id="83">
         <source>misconfigured_database_url_explain</source>
         <target>Could not connect to the database using the connection url found in the &lt;code&gt;DATABASE_URL&lt;/code&gt; environment variable.</target>
       </trans-unit>
