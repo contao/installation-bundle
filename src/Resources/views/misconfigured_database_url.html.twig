@@ -1,0 +1,9 @@
+{% extends "@ContaoInstallation/layout.html.twig" %}
+
+{% block main %}
+    <fieldset class="tl_tbox nolegend">
+        <h3>{{ 'an_error_occurred'|trans }}</h3>
+        <p class="tl_error">{{ 'misconfigured_database_url'|trans }}</p>
+        <p>{{ 'misconfigured_database_url_explain'|trans|raw }}</p>
+    </fieldset>
+{% endblock %}
