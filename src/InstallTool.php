@@ -93,8 +93,7 @@ class InstallTool
 
     public function canConnectToDatabase(?string $name): bool
     {
-        // Check if there is already a working connection to
-        // the database. If so, omit further checks.
+        // Return if there is a working database connection already
         try {
             $this->connection->connect();
             $this->connection->query('SHOW TABLES');
