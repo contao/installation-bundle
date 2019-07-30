@@ -1,129 +1,128 @@
 <?xml version="1.0" ?><xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-  <file datatype="plaintext" original="src/Resources/translations/messages.en.xlf" source-language="en" target-language="de">
+  <file datatype="plaintext" original="src/Resources/translations/messages.en.xlf" source-language="en" target-language="pt">
     <body>
       <trans-unit id="1">
         <source>install_tool</source>
-        <target>Contao-Installtool</target>
+        <target>Ferramenta de instalação do Contao</target>
         
       </trans-unit>
       <trans-unit id="2">
         <source>an_error_occurred</source>
-        <target>Es ist ein Fehler aufgetreten</target>
+        <target>Ocorreu um erro</target>
         
       </trans-unit>
       <trans-unit id="3">
         <source>locked_headline</source>
-        <target>Das Installtool wurde gesperrt!</target>
+        <target>A ferramenta de instalação foi bloqueada!</target>
         
       </trans-unit>
       <trans-unit id="4">
         <source>locked_explanation</source>
-        <target>Aus Sicherheitsgründen wurde das Installtool gesperrt, nachdem dreimal hintereinander ein falsches Passwort eingegeben wurde. Sie können es entweder im Contao Manager entsperren oder den Befehl &lt;code&gt;contao:install:unlock&lt;/code&gt; auf der Konsole ausführen.</target>
         
       </trans-unit>
       <trans-unit id="5">
         <source>file_permissions_headline</source>
-        <target>PHP kann keine Dateien schreiben!</target>
+        <target>O PHP não tem permissão  para escrever ficheiros!</target>
         
       </trans-unit>
       <trans-unit id="6">
         <source>file_permissions_explanation</source>
-        <target>Ihr Server unterstützt den Dateizugriff per PHP nicht; vermutlich läuft PHP als Apache-Modul unter einem anderen Benutzer. Bitte wenden Sie sich an Ihren Server-Administrator, damit dieser das Problem behebt.</target>
+        <target>O seu servidor não suporta acesso a ficheiros via PHP; provavelmente o PHP está a correr como módulo Apache com outro utilizador. Por favor contacte o seu administrador de servidor para resolver o problema. </target>
         
       </trans-unit>
       <trans-unit id="7">
         <source>file_permissions_warning</source>
-        <target> &lt;strong&gt;Versuchen Sie keinesfalls, das Problem selbst zu beheben, indem Sie die Dateien und Ordner für jedermann beschreibbar machen!&lt;/strong&gt;</target>
+        <target>&lt;strong&gt;Não tente corrigir este problema sem ajuda ao tornar ficheiros e pastas acessíveis a todos os utilizadores!&lt;/strong&gt;</target>
         
       </trans-unit>
       <trans-unit id="8">
         <source>accept_license</source>
-        <target>Lizenz akzeptieren</target>
+        <target>Aceitar licença</target>
         
       </trans-unit>
       <trans-unit id="9">
         <source>set_password</source>
-        <target>Installtool-Passwort</target>
+        <target>Senha da ferramenta de instalação</target>
         
       </trans-unit>
       <trans-unit id="10">
         <source>set_password_hint</source>
-        <target>Bitte vergeben Sie ein Passwort, um unberechtigte Zugriffe zu vermeiden.</target>
+        <target>Por favor introduza uma senha para prevenir acesso não autorizado.</target>
         
       </trans-unit>
       <trans-unit id="11">
         <source>password</source>
-        <target>Passwort</target>
+        <target>Senha</target>
         
       </trans-unit>
       <trans-unit id="12">
         <source>confirmation</source>
-        <target>Bestätigung</target>
+        <target>Confirmar senha</target>
         
       </trans-unit>
       <trans-unit id="13">
         <source>save_password</source>
-        <target>Passwort speichern</target>
+        <target>Salvar senha</target>
         
       </trans-unit>
       <trans-unit id="14">
         <source>password_confirmation_mismatch</source>
-        <target>Das Passwort stimmt nicht mit der Bestätigung überein!</target>
+        <target>A senha não coincide!</target>
         
       </trans-unit>
       <trans-unit id="15">
         <source>password_too_short</source>
-        <target>Das Passwort muss mindestens %d Zeichen lang sein!</target>
+        <target>A senha tem de conter pelo menos %d caracteres!</target>
         
       </trans-unit>
       <trans-unit id="16">
         <source>login</source>
-        <target>Installtool-Anmeldung</target>
+        <target>Login da ferramenta de instalação</target>
         
       </trans-unit>
       <trans-unit id="17">
         <source>login_explanation</source>
-        <target>Bitte geben Sie das Installtool-Passwort ein. Das Installtool-Passwort ist nicht gleich dem Contao Backend-Passwort.</target>
+        <target>Favor inserir a senha da ferramenta de instalação. A senha da ferramenta de instalação não é a mesma senha do back end do Contao.</target>
         
       </trans-unit>
       <trans-unit id="18">
         <source>allow_cookies</source>
-        <target>Für die Nutzung von Contao müssen Cookies erlaubt sein.</target>
+        <target>Para usar Contao, você precisa ter permissão de usar cookies.</target>
         
       </trans-unit>
       <trans-unit id="19">
         <source>login</source>
-        <target>Anmelden</target>
+        <target>Login</target>
         
       </trans-unit>
       <trans-unit id="20">
         <source>invalid_password</source>
-        <target>Ungültiges Passwort!</target>
+        <target>Senha inválida!</target>
         
       </trans-unit>
       <trans-unit id="21">
         <source>database_connection</source>
-        <target>Datenbankverbindung</target>
+        <target>Ligação a base de dados</target>
         
       </trans-unit>
       <trans-unit id="22">
         <source>database_connected</source>
-        <target>Datenbankverbindung hergestellt.</target>
+        <target>Conexão com o banco de dados ok.</target>
         
       </trans-unit>
       <trans-unit id="23">
         <source>database_dot_in_dbname</source>
-        <target>Der Datenbankname darf keine Punkte enthalten!</target>
+        <target>O nome da base de dados não pode conter pontos!</target>
         
       </trans-unit>
       <trans-unit id="24">
         <source>database_could_not_connect</source>
-        <target>Datenbankverbindung fehlgeschlagen!</target>
+        <target>Impossivel ligar á base de dados!</target>
         
       </trans-unit>
       <trans-unit id="25">
         <source>database_connection_explain</source>
-        <target>Bitte geben Sie Ihre Datenbank-Zugangsdaten ein.</target>
+        <target>Inserir parâmetros do banco de dados</target>
         
       </trans-unit>
       <trans-unit id="26">
@@ -133,282 +132,280 @@
       </trans-unit>
       <trans-unit id="27">
         <source>database_port</source>
-        <target>Portnummer</target>
+        <target>Porta número</target>
         
       </trans-unit>
       <trans-unit id="28">
         <source>database_user</source>
-        <target>Benutzername</target>
+        <target>Usuário</target>
         
       </trans-unit>
       <trans-unit id="29">
         <source>database_password</source>
-        <target>Passwort</target>
+        <target>Senha</target>
         
       </trans-unit>
       <trans-unit id="30">
         <source>database_name</source>
-        <target>Datenbankname</target>
+        <target>Nome da base de dados</target>
         
       </trans-unit>
       <trans-unit id="31">
         <source>save_settings</source>
-        <target>Einstellungen speichern</target>
+        <target>Guardar Configuração</target>
         
       </trans-unit>
       <trans-unit id="32">
         <source>update_tables</source>
-        <target>Datenbank aktualisieren</target>
+        <target>Atualizar base de dados</target>
         
       </trans-unit>
       <trans-unit id="33">
         <source>update_tables_explain</source>
-        <target>Bitte beachten Sie, dass der Update-Assistent nur Tabellen berücksichtigt, die mit &lt;code&gt;tl_&lt;/code&gt; beginnen.</target>
+        <target>Tenha em consideração que o assistente de configuração apenas afecta tabelas com prefixo &lt;code&gt;tl_&lt;/code&gt;.</target>
         
       </trans-unit>
       <trans-unit id="34">
         <source>update_tables_confirm</source>
-        <target>Die Datenbank ist aktuell.</target>
+        <target>O banco de dados está atualizado.</target>
         
       </trans-unit>
       <trans-unit id="35">
         <source>update_save</source>
-        <target>Datenbank aktualisieren</target>
+        <target>Checar/Atualizar banco de dados</target>
         
       </trans-unit>
       <trans-unit id="36">
         <source>CREATE</source>
-        <target>Tabellen anlegen</target>
+        <target>Criar tabelas</target>
         
       </trans-unit>
       <trans-unit id="37">
         <source>ALTER_TABLE</source>
-        <target>Tabellen ändern</target>
+        <target>Alterar tabelas</target>
         
       </trans-unit>
       <trans-unit id="38">
         <source>ALTER_ADD</source>
-        <target>Spalten anlegen</target>
+        <target>Adicionar colunas</target>
         
       </trans-unit>
       <trans-unit id="39">
         <source>ALTER_CHANGE</source>
-        <target>Spalten ändern</target>
+        <target>Alterar colunas</target>
         
       </trans-unit>
       <trans-unit id="40">
         <source>ALTER_DROP</source>
-        <target>Spalten löschen</target>
+        <target>Apagar colunas</target>
         
       </trans-unit>
       <trans-unit id="41">
         <source>DROP</source>
-        <target>Tabellen löschen</target>
+        <target>Apagar tabela</target>
         
       </trans-unit>
       <trans-unit id="42">
         <source>select_all</source>
-        <target>Alle auswählen</target>
+        <target>Selecionar tudo</target>
         
       </trans-unit>
       <trans-unit id="43">
         <source>template_import</source>
-        <target>Ein Template importieren</target>
+        <target>Importar um modelo</target>
         
       </trans-unit>
       <trans-unit id="44">
         <source>template_import_explain</source>
-        <target>Hier können Sie eine &lt;code&gt;.sql&lt;/code&gt;-Datei aus dem &lt;code&gt;templates&lt;/code&gt;-Verzeichnis importieren. Dabei werden alle bestehenden Daten gelöscht! Wenn Sie stattdessen lediglich ein Theme importieren wollen, nutzen Sie bitte den Theme-Manager im Contao-Backend.</target>
+        <target>Aqui pode importar um ficheiro &lt;code&gt;.sql&lt;/code&gt; constante do directório de &lt;code&gt;modelos&lt;/code&gt;. Quaisquer dados existentes serão apagados! Se apenas pretende importar um tema, utilize o gestor de temas no Contao back end.</target>
         
       </trans-unit>
       <trans-unit id="45">
         <source>import_exception</source>
-        <target>Der Import konnte nicht abgeschlossen werden! Ist die Datenbank aktuell und die Template-Datei kompatibel mit Ihrer Contao-Version?</target>
+        <target>Falha ao importar! Verifique se a base de dados está atualizada e se o ficheiro de modelo é compatível com a sua versão Contao.</target>
         
       </trans-unit>
       <trans-unit id="46">
         <source>import_empty_source</source>
-        <target>Bitte wählen Sie eine Template-Datei!</target>
+        <target>Favor escolher um arquivo modelo!</target>
         
       </trans-unit>
       <trans-unit id="47">
         <source>import_data_will_be_deleted</source>
-        <target>Alle bestehenden Daten werden gelöscht!</target>
+        <target>Todos os dados existentes serão apagados!</target>
         
       </trans-unit>
       <trans-unit id="48">
         <source>imported_on</source>
-        <target>Template importiert am %s.</target>
+        <target>Modelo importado em %s.</target>
         
       </trans-unit>
       <trans-unit id="49">
         <source>templates</source>
-        <target>Templates</target>
+        <target>Modelos</target>
         
       </trans-unit>
       <trans-unit id="50">
         <source>do_not_truncate</source>
-        <target>Tabellen nicht leeren</target>
+        <target>Não truncar as tabelas</target>
         
       </trans-unit>
       <trans-unit id="51">
         <source>import_confirm</source>
-        <target>Alle bestehenden Daten werden gelöscht. Möchten Sie trotzdem fortfahren?</target>
+        <target>Todos os dados existentes serão apagados! Você deseja continuar?</target>
         
       </trans-unit>
       <trans-unit id="52">
         <source>template_save</source>
-        <target>Ein Template importieren</target>
+        <target>Importar tabela</target>
         
       </trans-unit>
       <trans-unit id="53">
         <source>admin_create</source>
-        <target>Ein Administratorkonto anlegen</target>
+        <target>Criar um usuário administrador</target>
         
       </trans-unit>
       <trans-unit id="54">
         <source>admin_create_explain</source>
-        <target>Hier können Sie ein Administratorkonto für die Anmeldung im Contao-Backend erstellen.</target>
+        <target>Aqui pode criar um utilizador admin para entrar no Contao back end.</target>
         
       </trans-unit>
       <trans-unit id="55">
         <source>admin_confirm</source>
-        <target>Ein Administratorkonto wurde erstellt.</target>
+        <target>Um usuário administrador foi criado.</target>
         
       </trans-unit>
       <trans-unit id="56">
         <source>admin_username</source>
-        <target>Benutzername</target>
+        <target>Usuário</target>
         
       </trans-unit>
       <trans-unit id="57">
         <source>admin_name</source>
-        <target>Name</target>
+        <target>Nome</target>
         
       </trans-unit>
       <trans-unit id="58">
         <source>admin_email</source>
-        <target>E-Mail</target>
+        <target>Formato do e-mail</target>
         
       </trans-unit>
       <trans-unit id="59">
         <source>admin_save</source>
-        <target>Administratorkonto anlegen</target>
+        <target>Criar utilizador admin</target>
         
       </trans-unit>
       <trans-unit id="60">
         <source>admin_error_extnd</source>
-        <target>Aus Sicherheitsgründen können Sie folgende Zeichen hier nicht verwenden: #()/&lt;=&gt;</target>
+        <target>Por razões de segurança não pode utilizar os caracteres #()/&lt;=&gt; aqui</target>
         
       </trans-unit>
       <trans-unit id="61">
         <source>admin_error_no_space</source>
-        <target>Der Benutzername darf keine Leerzeichen enthalten!</target>
+        <target>O nome de utilizador não pode conter espaços!</target>
         
       </trans-unit>
       <trans-unit id="62">
         <source>admin_error_email</source>
-        <target>Bitte geben Sie eine gültige E-Mail-Adresse ein!</target>
+        <target>Favor inserir um endereço de e-mail válido!</target>
         
       </trans-unit>
       <trans-unit id="63">
         <source>admin_error_password_match</source>
-        <target>Die eingegebenen Passwörter stimmen nicht überein!</target>
+        <target>Senhas não conferem!</target>
         
       </trans-unit>
       <trans-unit id="64">
         <source>admin_error_password_user</source>
-        <target>Der Benutzername und das Passwort dürfen nicht gleich sein!</target>
+        <target>Seu nome de usuário e senha não podem ser os mesmos!</target>
         
       </trans-unit>
       <trans-unit id="65">
         <source>admin_error</source>
-        <target>Bitte füllen Sie alle Felder aus, um ein Administratorkonto zu erstellen!</target>
+        <target>Favor preencher todos os campos para criar um usuário administrador!</target>
         
       </trans-unit>
       <trans-unit id="66">
         <source>congratulations</source>
-        <target>Gratulation!</target>
+        <target>Parabéns!</target>
         
       </trans-unit>
       <trans-unit id="67">
         <source>congratulations_explain</source>
-        <target>Sie haben Contao erfolgreich installiert.</target>
+        <target>Você instalou o Contao com sucesso!</target>
         
       </trans-unit>
       <trans-unit id="68">
         <source>installation_complete</source>
-        <target>Installation abgeschlossen</target>
+        <target>Instalação completa</target>
         
       </trans-unit>
       <trans-unit id="69">
         <source>installation_complete_explain</source>
-        <target>Rufen Sie nun das Contao-Backend auf und überprüfen Sie die Systemeinstellungen.</target>
+        <target>Por favor verifique as configurações de sistema no Contao back end.</target>
         
       </trans-unit>
       <trans-unit id="70">
         <source>back_end</source>
-        <target>Contao-Backend</target>
+        <target>Contao back end</target>
         
       </trans-unit>
       <trans-unit id="71">
         <source>old_database</source>
-        <target>Die Datenbank ist zu alt!</target>
+        <target>A base de dados é demasiado antiga!</target>
         
       </trans-unit>
       <trans-unit id="72">
         <source>old_database_explanation</source>
-        <target>Sie benötigen mindestens Contao 3.2, um das Update auf Contao 4 durchzuführen.</target>
+        <target>Necessita no mínimo da versão 3.2 para actualizar para a versão Contao 4.</target>
         
       </trans-unit>
       <trans-unit id="73">
         <source>console_explanation</source>
-        <target>Eine Installationsaufgabe konnte nicht abgeschlossen werden!</target>
+        <target>Uma tarefa pós instalação não pôde ser completada!</target>
         
       </trans-unit>
       <trans-unit id="74">
         <source>duplicate_subscriptions</source>
-        <target>Es wurden doppelte Newsletter-Abonnements gefunden:</target>
+        <target>Subscrições de newsletter duplicadas encontradas:</target>
         
       </trans-unit>
       <trans-unit id="75">
         <source>duplicates_purged</source>
-        <target>Die doppelten Einträge wurden automatisch bereinigt. Eine Kopie der originalen Abonnements wurde in &lt;code&gt;tl_newsletter_recipients_backup&lt;/code&gt; gespeichert.</target>
+        <target>As entradas duplicadas foram removidas automaticamente. Uma cópia de segurança das subscrições originais foi guardada em &lt;code&gt;tl_newsletter_recipients_backup&lt;/code&gt;.</target>
         
       </trans-unit>
       <trans-unit id="76">
         <source>unsupported_version</source>
-        <target>Ihre Datenbank-Version wird nicht unterstützt!</target>
+        <target>A sua versão de base de dados não é suportada!</target>
         
       </trans-unit>
       <trans-unit id="77">
         <source>unsupported_version_explain</source>
-        <target>Contao benötigt mindestens MySQL 5.1.0, aber Sie haben Version %s. Bitte aktualisieren Sie Ihre Datenbank-Version.</target>
+        <target>O Contao necessita que a versão MySQL seja no mínimo 5.1.0, a versão %s está instalada.  Por favor actualize a versão de base de dados. </target>
         
       </trans-unit>
       <trans-unit id="78">
         <source>unsupported_collation</source>
-        <target>Die konfigurierte Kollation wird nicht unterstützt!</target>
+        <target>A ordenação (collation) configurada não é suportada!</target>
         
       </trans-unit>
       <trans-unit id="79">
         <source>unsupported_collation_explain</source>
-        <target>Die konfigurierte Kollation &lt;code&gt;%s&lt;/code&gt; ist auf Ihrem Server nicht verfügbar. Bitte installieren Sie sie (empfohlen) oder konfigurieren Sie einen anderen Zeichensatz und eine andere Kollation in der Datei &lt;code&gt;config/config.yml&lt;/code&gt;.</target>
         
       </trans-unit>
       <trans-unit id="80">
         <source>unsupported_engine</source>
-        <target>Die konfigurierte Datenbank-Engine wird nicht unterstützt!</target>
+        <target>O motor de base de dados configurado não é suportado!</target>
         
       </trans-unit>
       <trans-unit id="81">
         <source>unsupported_engine_explain</source>
-        <target>Die konfigurierte Datenbank-Engine &lt;code&gt;%s&lt;/code&gt; ist auf Ihrem Server nicht verfügbar. Bitte installieren Sie sie (empfohlen) oder konfigurieren Sie eine andere Datenbank-Engine in der Datei &lt;code&gt;config/config.yml&lt;/code&gt;.</target>
         
       </trans-unit>
       <trans-unit id="82">
         <source>misconfigured_database_url_explain</source>
-        <target>Die Datenbankverbindung mit der Verbindungs-URL aus der Environment-Variable &lt;code&gt;DATABASE_URL&lt;/code&gt; ist fehlgeschlagen.</target>
+        <target>Impossível conectar a base de dados com recurso ao URL definido na variável de ambiente &lt;code&gt;DATABASE_URL&lt;/code&gt;.</target>
         
       </trans-unit>
     </body>
